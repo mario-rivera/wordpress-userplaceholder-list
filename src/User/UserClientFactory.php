@@ -1,8 +1,21 @@
 <?php
 namespace InpsydeTest\User;
 
+use InpsydeTest\Util\CurlWrapper;
+
 class UserClientFactory
 {
+    /**
+     * @var CurlWrapper
+     */
+    private $curlWrapper;
+
+    public function __construct(
+        CurlWrapper $curlWrapper
+    ) {
+        $this->curlWrapper = $curlWrapper;
+    }
+
     /**
      * @param array $options
      * @return UserClient
@@ -16,7 +29,7 @@ class UserClientFactory
         $parsed_url = parse_url($options['base_url']);
         $url = $parsed_url['scheme'] . '://' . $parsed_url['host'];
 
-        $client = (new UserClient)->setUrl($url);
+        $client = (new UserClient($this->curlWrapper))->setUrl($url);
 
         return $client;
     }

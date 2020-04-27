@@ -1,12 +1,30 @@
 <?php
 namespace InpsydeTest\User;
 
+/**
+ * NOTE: I would love to use Guzzle for example.
+ * But this is a simple operation and I created this curl wrapper
+ * only to make this class testable.
+ */
+use InpsydeTest\Util\CurlWrapper;
+
 class UserClient
 {
     /**
      * @var string
      */
     private $url;
+
+    /**
+     * @var CurlWrapper
+     */
+    private $curlWrapper;
+
+    public function __construct(
+        CurlWrapper $curlWrapper
+    ) {
+        $this->curlWrapper = $curlWrapper;
+    }
 
     /**
      * @param string $url
@@ -23,14 +41,7 @@ class UserClient
      */
     public function getUsers()
     {
-        $handle = curl_init();
-
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle, CURLOPT_URL, $this->url . '/users');
-
-        $data = curl_exec($handle);
-        curl_close($handle);
-
+        $data = $this->curlWrapper->get($this->url . '/users');
         return json_decode($data, true);
     }
 }
