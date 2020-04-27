@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inpsyde Test</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="columns">
+                <!-- Table -->
+                <div class="columnn col-6">
+                    <div v-if="tableLoading">
+                        <div class="loading loading-lg"></div>
+                    </div>
+                    <div v-else>
+                        <table class="table table-hover">
+                            <thead>
+                                <th class="c-hand" v-on:click="sortTable('id')">ID <i class="icon icon-resize-vert"></i></th>
+                                <th class="c-hand" v-on:click="sortTable('name')">NAME <i class="icon icon-resize-vert"></i></th>
+                                <th class="c-hand" v-on:click="sortTable('username')">USERNAME <i class="icon icon-resize-vert"></i></th>
+                                <th class="c-hand" v-on:click="sortTable('email')">EMAIL <i class="icon icon-resize-vert"></i></th>
+                            </thead>
+            
+                            <tbody>
+                                <tr v-for="user in users">
+                                    <td><a class="c-hand" v-on:click.prevent="getUserDetails(user.id)">{{ user.id }}</a></td>
+                                    <td><a class="c-hand" v-on:click.prevent="getUserDetails(user.id)">{{ user.name }}</a></td>
+                                    <td><a class="c-hand" v-on:click.prevent="getUserDetails(user.id)">{{ user.username }}</a></td>
+                                    <td><a class="c-hand" v-on:click.prevent="getUserDetails(user.id)">{{ user.email }}</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- User Profile -->
+                <div class="columnn col-6">
+                    <div v-if="profileLoading">
+                        <div class="loading loading-lg"></div>
+                    </div>
+                    <div v-else>
+                        <div v-if="user">
+                            <div class="panel">
+                                <div class="panel-header text-center">
+                                    <figure class="avatar avatar-lg">
+                                        <i class="icon icon-people"></i>
+                                    </figure>
+                                    <div class="panel-title h5 mt-10">
+                                        {{user.name}}
+                                    </div>
+                                    <div class="panel-subtitle">
+                                        {{user.username}}
+                                    </div>
+                                </div>
+                                <nav class="panel-nav">
+                                    <ul class="tab tab-block">
+                                        <li class="tab-item active">
+                                            <a v-on:click.prevent>Profile</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="panel-body">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-content">
+                                            <div class="tile text-bold">
+                                                Email
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.email}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile">
+                                        <div class="tile-content">
+                                            <div class="tile text-bold">
+                                                Phone
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.phone}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-centered">
+                                        <div class="tile-content">
+                                            <div class="tile text-bold">
+                                                Website
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.website}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile">
+                                        <div class="tile-content">
+                                            <div class="tile text-bold">
+                                                Address
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.address.street}}
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.address.suite}}
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.address.city}}
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.address.zipcode}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile">
+                                        <div class="tile-content">
+                                            <div class="tile text-bold">
+                                                Company
+                                            </div>
+                                            <div class="tile-subtitle">
+                                                {{user.company.name}}
+                                            </div>
+                                            <div class="tile-subtitle text-gray">
+                                                {{user.company.catchPhrase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="empty">
+                                <div class="empty-icon">
+                                  <i class="icon icon-people"></i>
+                                </div>
+                                <p class="empty-title h5">No profile loaded</p>
+                                <p class="empty-subtitle">Click on a user to view it's profile.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="<?php echo $data['assets_url'] ?>/js/app.js"></script>
+</body>
+</html>
