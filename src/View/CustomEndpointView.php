@@ -2,6 +2,7 @@
 namespace InpsydeTest\View;
 
 use Psr\Container\ContainerInterface;
+use InpsydeTest\Util\TemplateLoader;
 
 class CustomEndpointView
 {
@@ -10,10 +11,17 @@ class CustomEndpointView
      */
     private $container;
 
+    /**
+     * @var TemplateLoader
+     */
+    private $templateLoader;
+
     public function __construct(
-        ContainerInterface $container
+        ContainerInterface $container,
+        TemplateLoader $templateLoader
     ) {
         $this->container = $container;
+        $this->templateLoader = $templateLoader;
     }
 
     /**
@@ -23,17 +31,9 @@ class CustomEndpointView
     public function render(array $data = []): ?string
     {
         $config = $this->container->get('assets.config');
-        $template = "{$config['dir']}/templates/users.html";
         $data['assets_url'] = $config['url'];
 
-        $output = null;
-
-        if (file_exists($template)) {
-            ob_start();
-            require_once($template);
-            $output = ob_get_contents();
-            ob_end_clean();
-        }
+        $output = $this->templateLoader->load("{$config['dir']}/templates/users.html", $data);
 
         return $output;
     }
