@@ -45,15 +45,20 @@ class CustomEndpointPlugin
      */
     public function onRequest(WP $wp): void
     {
-        $route = $this->routeExtractor->getRoute($wp);
+        try {
+            $route = $this->routeExtractor->getRoute($wp);
 
-        switch ($route) {
-            case 'inpsyde-test':
-                $handler = $this->container->get(EndpointHandler\TestEndpointHandler::class);
-                $response = $handler->handle();
+            switch ($route) {
+                case 'inpsyde-test':
+                    $handler = $this->container->get(EndpointHandler\TestEndpointHandler::class);
+                    $response = $handler->handle();
 
-                $this->emitter->emit($response);
-                break;
+                    $this->emitter->emit($response);
+                    break;
+            }
+        } catch(\Throwable $e) {
+            $errorHandler = $this->container->get(ErrorHandler\GenericErrorHandler::class);
+            $errorHandler->handleError($e);
         }
     }
 }
