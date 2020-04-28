@@ -28,6 +28,7 @@ var app = new Vue({
 
             if (self.userCache.hasOwnProperty(id)) {
                 self.user = self.userCache[id];
+                self.profileLoading = false;
             } else {
                 self.profileLoading = true;
 
